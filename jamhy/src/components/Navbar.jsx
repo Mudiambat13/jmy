@@ -1,88 +1,150 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [openSubmenu, setOpenSubmenu] = useState(null);
   const location = useLocation();
 
   const navigation = [
     { name: 'Accueil', path: '/' },
     { name: 'Services', path: '/services' },
     { name: 'Projets', path: '/projets' },
-    { name: 'À propos', path: '/a-propos' },
-    { name: 'Contact', path: '/contact' },
+    { 
+      name: 'L\'entreprise', 
+      path: '#',
+      submenu: [
+        { name: 'À propos', path: '/a-propos' },
+        { name: 'Statistiques', path: '/statistiques' },
+        { name: 'Témoignages', path: '/temoignages' },
+        { name: 'FAQ', path: '/faq' },
+      ]
+    },
+    { name: 'Actualités', path: '/actualites' },
+    { name: 'Contact', path: '/contact' }
   ];
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-white shadow-lg' : 'bg-transparent'
-    }`}>
+    <nav className="bg-[#063970] fixed w-full z-50">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-20">
-          <div className="flex-shrink-0">
-            <Link to="/" className="font-heading text-2xl font-bold">
-              <span className="text-primary">JAMHY</span>
-              <span className={`ml-2 ${isScrolled ? 'text-primary-light' : 'text-primary-light'}`}>SARL</span>
-            </Link>
-          </div>
+          {/* Logo */}
+          <Link to="/" className="font-heading text-2xl font-bold">
+            <span className="text-sky-200">JAMHY</span>
+            <span className="ml-2 text-yellow-300">SARL</span>
+          </Link>
 
-          <div className="hidden md:flex space-x-8">
+          {/* Navigation desktop */}
+          <div className="hidden md:flex space-x-1">
             {navigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.path}
-                className={`font-body text-lg transition-colors duration-300 ${
-                  location.pathname === item.path ? 'text-primary font-semibold' : 
-                  isScrolled ? 'text-gray-700 hover:text-primary' : 'text-white hover:text-primary-light'
-                }`}
-              >
-                {item.name}
-              </Link>
+              <div key={item.name} className="relative group">
+                {item.submenu ? (
+                  <div 
+                    className="relative"
+                    onMouseEnter={() => setOpenSubmenu(item.name)}
+                    onMouseLeave={() => setOpenSubmenu(null)}
+                  >
+                    <button className={`px-4 py-2 rounded-lg text-sky-200 hover:text-yellow-300 hover:bg-sky-900 transition-colors duration-300`}>
+                      {item.name}
+                      <svg className="w-4 h-4 ml-1 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    {openSubmenu === item.name && (
+                      <div className="absolute left-0 mt-1 w-48 rounded-lg bg-[#063970] shadow-xl py-2">
+                        {item.submenu.map((subItem) => (
+                          <Link
+                            key={subItem.name}
+                            to={subItem.path}
+                            className={`block px-4 py-2 text-sm ${
+                              location.pathname === subItem.path 
+                                ? 'text-yellow-300 bg-sky-900' 
+                                : 'text-sky-200 hover:text-yellow-300 hover:bg-sky-900'
+                            }`}
+                          >
+                            {subItem.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <Link
+                    to={item.path}
+                    className={`px-4 py-2 rounded-lg transition-colors duration-300 ${
+                      location.pathname === item.path 
+                        ? 'text-yellow-300 bg-sky-900' 
+                        : 'text-sky-200 hover:text-yellow-300 hover:bg-sky-900'
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                )}
+              </div>
             ))}
           </div>
 
+          {/* Bouton menu mobile */}
           <button
-            className={`md:hidden ${isScrolled ? 'text-primary' : 'text-white'}`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Menu mobile"
+            className="md:hidden text-sky-200 hover:text-yellow-300"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {isMobileMenuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              )}
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
         </div>
 
+        {/* Menu mobile */}
         {isMobileMenuOpen && (
-          <div className="md:hidden bg-white">
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  className={`block px-3 py-2 text-base font-medium rounded-md ${
-                    location.pathname === item.path 
-                      ? 'text-primary bg-gray-50' 
-                      : 'text-gray-700 hover:text-primary hover:bg-gray-50'
-                  }`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </div>
+          <div className="md:hidden py-4">
+            {navigation.map((item) => (
+              <div key={item.name}>
+                {item.submenu ? (
+                  <>
+                    <button
+                      onClick={() => setOpenSubmenu(openSubmenu === item.name ? null : item.name)}
+                      className="w-full px-4 py-2 text-left text-sky-200 hover:text-yellow-300 hover:bg-sky-900 flex justify-between items-center"
+                    >
+                      {item.name}
+                      <svg className={`w-4 h-4 transform transition-transform duration-200 ${openSubmenu === item.name ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    {openSubmenu === item.name && (
+                      <div className="bg-sky-900 py-2">
+                        {item.submenu.map((subItem) => (
+                          <Link
+                            key={subItem.name}
+                            to={subItem.path}
+                            className={`block px-8 py-2 ${
+                              location.pathname === subItem.path 
+                                ? 'text-yellow-300' 
+                                : 'text-sky-200 hover:text-yellow-300'
+                            }`}
+                            onClick={() => setIsMobileMenuOpen(false)}
+                          >
+                            {subItem.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <Link
+                    to={item.path}
+                    className={`block px-4 py-2 ${
+                      location.pathname === item.path 
+                        ? 'text-yellow-300 bg-[#084b8f]' 
+                        : 'text-sky-200 hover:text-yellow-300 hover:bg-[#084b8f]'
+                    }`}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                )}
+              </div>
+            ))}
           </div>
         )}
       </div>

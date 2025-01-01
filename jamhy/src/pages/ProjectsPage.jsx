@@ -9,7 +9,7 @@ function ProjectsPage() {
       title: 'Centre Commercial Modern Plaza',
       category: 'commercial',
       description: 'Construction d\'un centre commercial de 50,000m² incluant parking souterrain',
-      image: '/images/projects/commercial-1.jpg',
+      image: '/images/projects/shopping.png',
       year: '2023',
       client: 'Modern Plaza SA'
     },
@@ -18,7 +18,7 @@ function ProjectsPage() {
       title: 'Pont de la Rivière',
       category: 'infrastructure',
       description: 'Construction d\'un pont à haubans de 500m de longueur',
-      image: '/images/projects/infrastructure-1.jpg',
+      image: '/images/projects/pont.jpg',
       year: '2022',
       client: 'Département des Travaux Publics'
     },
@@ -27,7 +27,7 @@ function ProjectsPage() {
       title: 'Usine Eco-Tech',
       category: 'industriel',
       description: 'Construction d\'une usine écologique de 15,000m²',
-      image: '/images/projects/industrial-1.jpg',
+      image: '/images/projects/solaire.webp',
       year: '2023',
       client: 'Eco-Tech Industries'
     },
@@ -36,7 +36,7 @@ function ProjectsPage() {
       title: 'Résidence Les Jardins',
       category: 'residentiel',
       description: 'Complexe résidentiel de 200 appartements avec espaces verts',
-      image: '/images/projects/residential-1.jpg',
+      image: '/images/projects/residence.jpg',
       year: '2022',
       client: 'Groupe Immobilier Royal'
     }
@@ -57,7 +57,7 @@ function ProjectsPage() {
   return (
     <div className="pt-20 min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-16">
-        <h1 className="text-4xl font-heading font-bold text-primary text-center mb-8">
+        <h1 className="text-4xl font-heading font-bold text-[#063970] text-center mb-8">
           Nos Projets Réalisés
         </h1>
 
@@ -69,8 +69,8 @@ function ProjectsPage() {
               onClick={() => setActiveFilter(filter.id)}
               className={`px-6 py-2 rounded-full transition-colors duration-300 ${
                 activeFilter === filter.id
-                  ? 'bg-primary text-white'
-                  : 'bg-white text-gray-600 hover:bg-gray-100'
+                  ? 'bg-[#063970] text-yellow-300'
+                  : 'bg-white text-gray-600 hover:bg-sky-100'
               }`}
             >
               {filter.label}
@@ -83,7 +83,7 @@ function ProjectsPage() {
           {filteredProjects.map((project) => (
             <div
               key={project.id}
-              className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+              className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
             >
               <div className="relative h-64">
                 <img
@@ -93,15 +93,15 @@ function ProjectsPage() {
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-heading font-bold text-primary mb-2">
+                <h3 className="text-xl font-heading font-bold text-[#063970] mb-2">
                   {project.title}
                 </h3>
                 <p className="text-gray-600 mb-4">
                   {project.description}
                 </p>
-                <div className="flex justify-between text-sm text-gray-500">
-                  <span>Client: {project.client}</span>
-                  <span>Année: {project.year}</span>
+                <div className="flex justify-between text-sm">
+                  <span className="text-sky-600">Client: {project.client}</span>
+                  <span className="text-yellow-600">Année: {project.year}</span>
                 </div>
               </div>
             </div>

@@ -49,7 +49,7 @@ function Contact() {
           {contactInfo.map((item, index) => (
             <div
               key={index}
-              className="bg-white p-6 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow duration-300"
+              className="bg-white p-6 rounded-lg shadow-lg text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border-b-4 border-primary"
             >
               <div className="text-primary mb-4 flex justify-center">
                 {item.icon}

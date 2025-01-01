@@ -7,21 +7,21 @@ function Projects() {
       id: 1,
       title: 'Centre Commercial Modern Plaza',
       category: 'Commercial',
-      image: '/images/projects/commercial-1.jpg',
+      image: '/images/projects/shopping.png',
       description: 'Construction d\'un centre commercial de 50,000m² incluant parking souterrain'
     },
     {
       id: 2,
       title: 'Pont de la Rivière',
       category: 'Infrastructure',
-      image: '/images/projects/infrastructure-1.jpg',
+      image: '/images/projects/pont.jpg',
       description: 'Construction d\'un pont à haubans de 500m de longueur'
     },
     {
       id: 3,
       title: 'Usine Eco-Tech',
       category: 'Industriel',
-      image: '/images/projects/industrial-1.jpg',
+      image: '/images/projects/solaire.webp',
       description: 'Construction d\'une usine écologique de 15,000m²'
     }
   ];
